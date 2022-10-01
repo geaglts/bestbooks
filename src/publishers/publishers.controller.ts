@@ -9,6 +9,8 @@ import {
   Param,
 } from '@nestjs/common';
 
+import { ParseIntPipe } from 'src/common/parse-int.pipe';
+
 import { PublishersService } from './publishers.service';
 
 @Controller('publishers')
@@ -21,8 +23,8 @@ export class PublishersController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.publishersService.findOne(parseInt(id, 10));
+  findOne(@Param('id', ParseIntPipe) id: number) {
+    return this.publishersService.findOne(id);
   }
 
   @Post()
@@ -32,12 +34,12 @@ export class PublishersController {
   }
 
   @Put(':id')
-  update(@Param('id') id: string, @Body() body) {
-    return this.publishersService.updateOne(parseInt(id, 10), body);
+  update(@Param('id', ParseIntPipe) id: number, @Body() body) {
+    return this.publishersService.updateOne(id, body);
   }
 
   @Delete(':id')
-  delete(@Param('id') id: string) {
-    return this.publishersService.removeOne(parseInt(id, 10));
+  delete(@Param('id', ParseIntPipe) id: number) {
+    return this.publishersService.removeOne(id);
   }
 }

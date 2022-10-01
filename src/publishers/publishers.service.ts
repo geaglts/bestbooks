@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 
 import { Publisher } from './entities/publisher.entity';
 
@@ -15,6 +15,11 @@ export class PublishersService {
 
   findOne(publisherId: number) {
     const publisher = this.publishers.find(({ id }) => id === publisherId);
+    if (!publisher) {
+      throw new NotFoundException(
+        `Publisher with id=${publisherId} not was found`,
+      );
+    }
     return publisher;
   }
 
@@ -29,6 +34,11 @@ export class PublishersService {
     const publisherIndex = this.publishers.findIndex(
       ({ id }) => id === publisherId,
     );
+    if (publisherIndex < 0) {
+      throw new NotFoundException(
+        `Publisher with id=${publisherId} not was found`,
+      );
+    }
     this.publishers[publisherIndex] = {
       ...this.publishers[publisherIndex],
       ...fieldsToUpdate,

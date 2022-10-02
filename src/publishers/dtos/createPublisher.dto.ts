@@ -3,6 +3,7 @@ import { IsNotEmpty, IsString, MaxLength } from 'class-validator';
 class CreatePublisherDTO {
   @IsNotEmpty()
   @IsString()
+  @MaxLength(50)
   readonly name: string;
 
   @IsNotEmpty()

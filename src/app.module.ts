@@ -9,6 +9,7 @@ import { FavoritesController } from './favorites/favorites.controller';
 import { BooksController } from './books/books.controller';
 import { AuthorsController } from './authors/authors.controller';
 import { PublishersService } from './publishers/publishers.service';
+import { CategoriesService } from './categories/categories.service';
 
 @Module({
   imports: [],
@@ -22,6 +23,6 @@ import { PublishersService } from './publishers/publishers.service';
     BooksController,
     AuthorsController,
   ],
-  providers: [AppService, PublishersService],
+  providers: [AppService, PublishersService, CategoriesService],
 })
 export class AppModule {}

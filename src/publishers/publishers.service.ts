@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-
 import { Publisher } from './entities/publisher.entity';
+import { CreatePublisherDTO, UpdatePublisherDTO } from './dtos';
 
 @Injectable()
 export class PublishersService {
@@ -23,14 +23,14 @@ export class PublishersService {
     return publisher;
   }
 
-  addOne(publisherData) {
+  addOne(publisherData: CreatePublisherDTO) {
     const newId = ++this.publisherId;
     const newPublisher = { id: newId, ...publisherData };
     this.publishers.push(newPublisher);
     return newPublisher;
   }
 
-  updateOne(publisherId: number, fieldsToUpdate) {
+  updateOne(publisherId: number, fieldsToUpdate: UpdatePublisherDTO) {
     const publisherIndex = this.publishers.findIndex(
       ({ id }) => id === publisherId,
     );

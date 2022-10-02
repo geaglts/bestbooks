@@ -8,10 +8,9 @@ import {
   Body,
   Param,
 } from '@nestjs/common';
-
 import { ParseIntPipe } from 'src/common/parse-int.pipe';
-
 import { PublishersService } from './publishers.service';
+import { CreatePublisherDTO, UpdatePublisherDTO } from './dtos';
 
 @Controller('publishers')
 export class PublishersController {
@@ -29,12 +28,15 @@ export class PublishersController {
 
   @Post()
   @HttpCode(201)
-  create(@Body() body) {
+  create(@Body() body: CreatePublisherDTO) {
     return this.publishersService.addOne(body);
   }
 
   @Put(':id')
-  update(@Param('id', ParseIntPipe) id: number, @Body() body) {
+  update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() body: UpdatePublisherDTO,
+  ) {
     return this.publishersService.updateOne(id, body);
   }
 

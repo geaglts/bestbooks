@@ -1,18 +1,20 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { PublishersController } from './publishers/publishers.controller';
-import { CategoriesController } from './categories/categories.controller';
+import { PublishersController } from './books/publishers/publishers.controller';
+import { CategoriesController } from './books/categories/categories.controller';
 import { UsersController } from './users/users.controller';
-import { ShoppingsController } from './shoppings/shoppings.controller';
-import { FavoritesController } from './favorites/favorites.controller';
+import { ShoppingsController } from './users/shoppings/shoppings.controller';
+import { FavoritesController } from './users/favorites/favorites.controller';
 import { BooksController } from './books/books.controller';
-import { AuthorsController } from './authors/authors.controller';
-import { PublishersService } from './publishers/publishers.service';
-import { CategoriesService } from './categories/categories.service';
+import { AuthorsController } from './books/authors/authors.controller';
+import { PublishersService } from './books/publishers/publishers.service';
+import { CategoriesService } from './books/categories/categories.service';
+import { BooksModule } from './books/books.module';
+import { UsersModule } from './users/users.module';
 
 @Module({
-  imports: [],
+  imports: [BooksModule, UsersModule],
   controllers: [
     AppController,
     PublishersController,

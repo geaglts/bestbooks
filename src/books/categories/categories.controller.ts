@@ -7,8 +7,11 @@ import {
   HttpCode,
   Body,
   Param,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { CategoriesService } from './categories.service';
+
+import { CreateCategoryDTO, UpdateCategoryDTO } from './dtos';
 
 @Controller('categories')
 export class CategoriesController {
@@ -20,23 +23,26 @@ export class CategoriesController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: number) {
+  findOne(@Param('id', ParseIntPipe) id: number) {
     return { id };
   }
 
   @Post()
   @HttpCode(201)
-  create(@Body() body) {
+  create(@Body() body: CreateCategoryDTO) {
     return body;
   }
 
   @Put(':id')
-  update(@Param('id') id: number, @Body() body) {
+  update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() body: UpdateCategoryDTO,
+  ) {
     return { id, body };
   }
 
   @Delete(':id')
-  delete(@Param('id') id: number) {
+  delete(@Param('id', ParseIntPipe) id: number) {
     return { id };
   }
 }

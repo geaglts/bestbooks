@@ -12,11 +12,13 @@ import { DatabaseModule } from './database/database.module';
 
 // environment
 import { getEnvironment } from './environments';
+import config from './config';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       envFilePath: getEnvironment(process.env.NODE_ENV),
+      load: [config],
       isGlobal: true,
     }),
     BooksModule,

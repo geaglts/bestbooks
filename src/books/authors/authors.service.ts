@@ -1,5 +1,6 @@
 import { Injectable, Inject } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
+import { ConfigType } from '@nestjs/config';
+import config from 'src/config';
 
 import { CreateAuthorDTO, UpdateAuthorDTO } from './dtos';
 
@@ -7,14 +8,15 @@ import { CreateAuthorDTO, UpdateAuthorDTO } from './dtos';
 export class AuthorsService {
   constructor(
     @Inject('GLOBAL_KEY') private globalKey: string,
-    private configs: ConfigService,
+    // Variables de entorno con tipado
+    @Inject(config.KEY) private configKeys: ConfigType<typeof config>,
   ) {}
 
   findAll() {
     return {
       status: 'ok',
       key: this.globalKey,
-      configs: this.configs.get('GLOBAL_KEY'),
+      configs: this.configKeys.globalKey,
     };
   }
 

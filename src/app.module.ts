@@ -1,4 +1,6 @@
 import { Module } from '@nestjs/common';
+import { HttpModule, HttpService } from '@nestjs/axios';
+import { firstValueFrom } from 'rxjs';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UsersController } from './users/users.controller';
@@ -9,7 +11,7 @@ import { BooksModule } from './books/books.module';
 import { UsersModule } from './users/users.module';
 
 @Module({
-  imports: [BooksModule, UsersModule],
+  imports: [HttpModule, BooksModule, UsersModule],
   controllers: [
     AppController,
     UsersController,
@@ -22,6 +24,20 @@ import { UsersModule } from './users/users.module';
     {
       provide: 'API_KEY',
       useValue: 'shit this is an API key?',
+    },
+    {
+      // Permite hacer metodos asincronos.
+      // Solo se ejecuta al cargar el server,
+      // despues ya no se actualiza aunque recarguemos la pagina
+      provide: 'RANDOM_KEY',
+      useFactory: async (http: HttpService) => {
+        const API_URL = 'https://key-generator.fly.dev';
+        const { data } = await firstValueFrom(
+          http.get(`${API_URL}/api/v1/key-generator/random-key?size=16`),
+        );
+        return data.key;
+      },
+      inject: [HttpService],
     },
   ],
 })

@@ -1,5 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
+import * as Joi from 'joi';
+
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UsersController } from './users/users.controller';
@@ -20,6 +22,9 @@ import config from './config';
       envFilePath: getEnvironment(process.env.NODE_ENV),
       load: [config],
       isGlobal: true,
+      validationSchema: Joi.object({
+        GLOBAL_KEY: Joi.number().required(),
+      }),
     }),
     BooksModule,
     UsersModule,

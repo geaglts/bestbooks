@@ -7,7 +7,7 @@ import { Module, Global } from '@nestjs/common';
   providers: [
     {
       provide: 'GLOBAL_KEY',
-      useValue: 'this is a global key',
+      useValue: 'hi this is a key, or not?',
     },
   ],
   exports: ['GLOBAL_KEY'],

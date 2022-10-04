@@ -8,10 +8,13 @@ import {
   Body,
   Param,
 } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
+
 import { ParseIntPipe } from 'src/common/parse-int.pipe';
 import { PublishersService } from './publishers.service';
 import { CreatePublisherDTO, UpdatePublisherDTO } from './dtos';
 
+@ApiTags('publishers')
 @Controller('publishers')
 export class PublishersController {
   constructor(private publishersService: PublishersService) {}

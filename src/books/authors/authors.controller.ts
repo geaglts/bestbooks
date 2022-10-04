@@ -9,10 +9,12 @@ import {
   Body,
   ParseIntPipe,
 } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 
 import { CreateAuthorDTO, UpdateAuthorDTO } from './dtos';
 import { AuthorsService } from './authors.service';
 
+@ApiTags('authors')
 @Controller('authors')
 export class AuthorsController {
   constructor(private authorsService: AuthorsService) {}

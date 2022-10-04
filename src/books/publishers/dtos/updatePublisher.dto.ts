@@ -1,4 +1,4 @@
-import { PartialType } from '@nestjs/mapped-types';
+import { PartialType } from '@nestjs/swagger';
 import CreatePublisherDTO from './createPublisher.dto';
 
 class UpdatePublisherDTO extends PartialType(CreatePublisherDTO) {}

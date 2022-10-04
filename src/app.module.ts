@@ -10,10 +10,13 @@ import { BooksModule } from './books/books.module';
 import { UsersModule } from './users/users.module';
 import { DatabaseModule } from './database/database.module';
 
+// environment
+import { getEnvironment } from './environments';
+
 @Module({
   imports: [
     ConfigModule.forRoot({
-      envFilePath: '.env',
+      envFilePath: getEnvironment(process.env.NODE_ENV),
       isGlobal: true,
     }),
     BooksModule,

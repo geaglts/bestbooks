@@ -1,11 +1,13 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Inject } from '@nestjs/common';
 
 import { CreateAuthorDTO, UpdateAuthorDTO } from './dtos';
 
 @Injectable()
 export class AuthorsService {
+  constructor(@Inject('GLOBAL_KEY') private globalKey: string) {}
+
   findAll() {
-    return { status: 'ok' };
+    return { status: 'ok', key: this.globalKey };
   }
 
   findOne(authorId: number) {

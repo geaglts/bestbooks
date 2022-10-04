@@ -9,7 +9,7 @@ export class AppController {
 
   @Get()
   @ApiOperation({ summary: 'Base route' })
-  getHello(): string {
+  getHello() {
     return this.appService.getHello();
   }
 }

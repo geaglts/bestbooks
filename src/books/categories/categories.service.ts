@@ -1,21 +1,48 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+
 import { Category } from './entities/category.entity';
 import { CreateCategoryDTO, UpdateCategoryDTO } from './dtos';
 
 @Injectable()
 export class CategoriesService {
-  private id = 1;
-  private categories: Category[] = [{ id: 1, name: 'terror' }];
+  constructor(
+    @InjectRepository(Category)
+    private categoriesRepository: Repository<Category>,
+  ) {}
 
   findAll() {
-    return this.categories;
+    return this.categoriesRepository.find();
   }
 
-  findOne(categoryId: number) {}
+  async findOne(categoryId: number) {
+    const category = await this.categoriesRepository.findOneBy({
+      id: categoryId,
+    });
+    if (!category) throw new NotFoundException(`Categoria no encontrada`);
+    return category;
+  }
 
-  createOne(categoryData: CreateCategoryDTO) {}
+  createOne(categoryData: CreateCategoryDTO) {
+    const newCategory = this.categoriesRepository.create(categoryData);
+    return this.categoriesRepository.save(newCategory);
+  }
 
-  updateOne(categoryId: number, fieldsToUpdate: UpdateCategoryDTO) {}
+  async updateOne(categoryId: number, fieldsToUpdate: UpdateCategoryDTO) {
+    const category = await this.categoriesRepository.findOneBy({
+      id: categoryId,
+    });
+    if (!category) throw new NotFoundException(`Categoria no encontrada`);
+    this.categoriesRepository.merge(category, fieldsToUpdate);
+    return this.categoriesRepository.save(category);
+  }
 
-  removeOne(categoryId: number) {}
+  async removeOne(categoryId: number) {
+    const category = await this.categoriesRepository.findOneBy({
+      id: categoryId,
+    });
+    if (!category) throw new NotFoundException(`Categoria no encontrada`);
+    return this.categoriesRepository.delete(categoryId);
+  }
 }

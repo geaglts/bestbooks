@@ -27,13 +27,13 @@ export class CategoriesController {
 
   @Get(':id')
   findOne(@Param('id', ParseIntPipe) id: number) {
-    return { id };
+    return this.categoriesService.findOne(id);
   }
 
   @Post()
   @HttpCode(201)
   create(@Body() body: CreateCategoryDTO) {
-    return body;
+    return this.categoriesService.createOne(body);
   }
 
   @Put(':id')
@@ -41,11 +41,11 @@ export class CategoriesController {
     @Param('id', ParseIntPipe) id: number,
     @Body() body: UpdateCategoryDTO,
   ) {
-    return { id, body };
+    return this.categoriesService.updateOne(id, body);
   }
 
   @Delete(':id')
   delete(@Param('id', ParseIntPipe) id: number) {
-    return { id };
+    return this.categoriesService.removeOne(id);
   }
 }

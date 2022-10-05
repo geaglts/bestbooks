@@ -11,9 +11,9 @@ export const envValidation = Joi.object({
 
 export default registerAs('config', () => {
   return {
-    database: {
+    postgres: {
       dbHost: process.env.DB_HOST,
-      dbPort: process.env.DB_PORT,
+      dbPort: parseInt(process.env.DB_PORT, 10),
       dbUsername: process.env.DB_USERNAME,
       dbPassword: process.env.DB_PASSWORD,
       dbName: process.env.DB_NAME,

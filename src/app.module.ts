@@ -12,6 +12,7 @@ import { UsersModule } from './users/users.module';
 
 import config, { envValidation } from './config';
 import { getEnvironments } from './environments';
+import { DatabaseModule } from './database/database.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { getEnvironments } from './environments';
     }),
     BooksModule,
     UsersModule,
+    DatabaseModule,
   ],
   controllers: [
     AppController,

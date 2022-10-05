@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
@@ -15,19 +15,27 @@ export class AuthorsService {
     return this.authorsRepository.find();
   }
 
-  findOne(authorId: number) {
-    return { status: 'ok', authorId };
+  async findOne(authorId: number) {
+    const author = await this.authorsRepository.findOneBy({ id: authorId });
+    if (!author) throw new NotFoundException(`Autor no encontrado`);
+    return author;
   }
 
   createOne(authorData: CreateAuthorDTO) {
-    return { status: 'ok', authorData };
+    const newAuthor = this.authorsRepository.create(authorData); // crea la entidad pero no la guarda
+    return this.authorsRepository.save(newAuthor);
   }
 
-  updateOne(authorId: number, fieldsToUpdate: UpdateAuthorDTO) {
-    return { status: 'ok', authorId, fieldsToUpdate };
+  async updateOne(authorId: number, fieldsToUpdate: UpdateAuthorDTO) {
+    const author = await this.authorsRepository.findOneBy({ id: authorId });
+    if (!author) throw new NotFoundException(`Autor no encontrado`);
+    this.authorsRepository.merge(author, fieldsToUpdate);
+    return this.authorsRepository.save(author);
   }
 
-  removeOne(authorId: number) {
-    return { status: 'ok', authorId };
+  async removeOne(authorId: number) {
+    const author = await this.authorsRepository.findOneBy({ id: authorId });
+    if (!author) throw new NotFoundException(`Autor no encontrado`);
+    return this.authorsRepository.delete(author);
   }
 }

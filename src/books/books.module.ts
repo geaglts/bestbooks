@@ -1,7 +1,11 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-import { PublishersController, PublishersService } from './publishers';
+import {
+  PublishersController,
+  PublishersService,
+  PublisherEntity,
+} from './publishers';
 import {
   CategoriesController,
   CategoriesService,
@@ -10,7 +14,9 @@ import {
 import { AuthorsController, AuthorsService, AuthorEntity } from './authors';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([AuthorEntity, CategoryEntity])],
+  imports: [
+    TypeOrmModule.forFeature([AuthorEntity, CategoryEntity, PublisherEntity]),
+  ],
   controllers: [PublishersController, CategoriesController, AuthorsController],
   providers: [PublishersService, CategoriesService, AuthorsService],
 })

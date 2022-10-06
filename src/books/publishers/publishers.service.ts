@@ -1,53 +1,45 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { FindOptionsWhere, Repository } from 'typeorm';
+
 import { Publisher } from './entities/publisher.entity';
 import { CreatePublisherDTO, UpdatePublisherDTO } from './dtos';
 
 @Injectable()
 export class PublishersService {
-  private publisherId = 1;
-  private publishers: Publisher[] = [
-    { id: 1, name: 'variedades', short_name: 'vari' },
-  ];
+  constructor(
+    @InjectRepository(Publisher)
+    private publishersRepository: Repository<Publisher>,
+  ) {}
 
   findAll() {
-    return this.publishers;
+    return this.publishersRepository.find();
   }
 
-  findOne(publisherId: number) {
-    const publisher = this.publishers.find(({ id }) => id === publisherId);
-    if (!publisher) {
-      throw new NotFoundException(
-        `Publisher with id=${publisherId} not was found`,
-      );
-    }
+  async findOne(publisherId: number) {
+    const query: FindOptionsWhere<Publisher> = { id: publisherId };
+    const publisher = await this.publishersRepository.findOneBy(query);
+    if (!publisher) throw new NotFoundException(`Editorial no encontrada`);
     return publisher;
   }
 
   addOne(publisherData: CreatePublisherDTO) {
-    const newId = ++this.publisherId;
-    const newPublisher = { id: newId, ...publisherData };
-    this.publishers.push(newPublisher);
-    return newPublisher;
+    const newPublisher = this.publishersRepository.create(publisherData);
+    return this.publishersRepository.save(newPublisher);
   }
 
-  updateOne(publisherId: number, fieldsToUpdate: UpdatePublisherDTO) {
-    const publisherIndex = this.publishers.findIndex(
-      ({ id }) => id === publisherId,
-    );
-    if (publisherIndex < 0) {
-      throw new NotFoundException(
-        `Publisher with id=${publisherId} not was found`,
-      );
-    }
-    this.publishers[publisherIndex] = {
-      ...this.publishers[publisherIndex],
-      ...fieldsToUpdate,
-    };
-    return this.publishers[publisherIndex];
+  async updateOne(publisherId: number, fieldsToUpdate: UpdatePublisherDTO) {
+    const query = { id: publisherId };
+    const publisher = await this.publishersRepository.findOneBy(query);
+    if (!publisher) throw new NotFoundException(`Editorial no encontrada`);
+    this.publishersRepository.merge(publisher, fieldsToUpdate);
+    return this.publishersRepository.save(publisher);
   }
 
-  removeOne(publisherId: number) {
-    this.publishers = this.publishers.filter(({ id }) => id !== publisherId);
-    return publisherId;
+  async removeOne(publisherId: number) {
+    const query = { id: publisherId };
+    const publisher = await this.publishersRepository.findOneBy(query);
+    if (!publisher) throw new NotFoundException(`Editorial no encontrada`);
+    return this.publishersRepository.delete(publisher);
   }
 }

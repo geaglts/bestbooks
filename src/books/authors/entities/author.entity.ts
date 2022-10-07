@@ -4,7 +4,11 @@ import {
   Entity,
   CreateDateColumn,
   UpdateDateColumn,
+  ManyToMany,
 } from 'typeorm';
+
+// entities
+import { BookEntity } from '../../entities/book.entity';
 
 @Entity({ name: 'authors' })
 export class Author {
@@ -25,4 +29,7 @@ export class Author {
 
   @UpdateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
   updatedAt: Date;
+
+  @ManyToMany(() => BookEntity, (book) => book.authors)
+  books: BookEntity[];
 }

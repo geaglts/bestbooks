@@ -7,10 +7,10 @@ import {
   HttpCode,
   Body,
   Param,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 
-import { ParseIntPipe } from 'src/common/parse-int.pipe';
 import { PublishersService } from './publishers.service';
 import { CreatePublisherDTO, UpdatePublisherDTO } from './dtos';
 

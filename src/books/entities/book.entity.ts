@@ -5,10 +5,14 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   ManyToOne,
+  ManyToMany,
+  JoinTable,
 } from 'typeorm';
 
 // entities
-import { Publisher } from '../publishers/entities/publisher.entity';
+import { AuthorEntity } from '../authors';
+import { CategoryEntity } from '../categories';
+import { PublisherEntity } from '../publishers';
 
 @Entity({ name: 'books' })
 export class BookEntity {
@@ -27,8 +31,8 @@ export class BookEntity {
   @Column({ type: 'int' })
   quantity: number;
 
-  @ManyToOne(() => Publisher, (publisher) => publisher.books)
-  publisher: Publisher;
+  @ManyToOne(() => PublisherEntity, (publisher) => publisher.books)
+  publisher: PublisherEntity;
 
   @Column({ type: 'int' })
   publication_year: number;
@@ -38,4 +42,12 @@ export class BookEntity {
 
   @UpdateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
   updatedAt: Date;
+
+  @ManyToMany(() => AuthorEntity, (author) => author.books)
+  @JoinTable({ name: 'authors_books' })
+  authors: AuthorEntity[];
+
+  @ManyToMany(() => CategoryEntity, (category) => category.books)
+  @JoinTable({ name: 'book_categories' })
+  categories: CategoryEntity[];
 }

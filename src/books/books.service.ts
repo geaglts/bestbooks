@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
@@ -16,19 +16,25 @@ export class BooksService {
     return this.booksRepository.find();
   }
 
-  async findOne() {
-    return '';
+  async findOne(bookId: number) {
+    const book = await this.booksRepository.findOneBy({ id: bookId });
+    if (!book) throw new NotFoundException('Libro no encontrado');
+    return book;
   }
 
-  createOne() {
-    return '';
+  createOne(bookData: CreateBookDTO) {
+    const newBook = this.booksRepository.create(bookData);
+    return this.booksRepository.save(newBook);
   }
 
-  async updateOne() {
-    return '';
+  async updateOne(bookId: number, fieldsToUpdate: UpdateBookDTO) {
+    const book = await this.booksRepository.findOneBy({ id: bookId });
+    if (!book) throw new NotFoundException('Libro no encontrado');
+    this.booksRepository.merge(book, fieldsToUpdate);
+    return this.booksRepository.save(book);
   }
 
-  async removeOne() {
-    return '';
+  async removeOne(bookId: number) {
+    return this.booksRepository.delete(bookId);
   }
 }

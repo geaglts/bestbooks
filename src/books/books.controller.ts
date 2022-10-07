@@ -7,10 +7,12 @@ import {
   HttpCode,
   Param,
   Body,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 
 import { BooksService } from './books.service';
+import { CreateBookDTO, UpdateBookDTO } from './dtos';
 
 @ApiTags('books')
 @Controller('books')
@@ -23,23 +25,23 @@ export class BooksController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: number) {
-    return { id };
+  findOne(@Param('id', ParseIntPipe) id: number) {
+    return this.booksService.findOne(id);
   }
 
   @Post()
   @HttpCode(201)
-  create(@Body() body) {
-    return body;
+  create(@Body() body: CreateBookDTO) {
+    return this.booksService.createOne(body);
   }
 
   @Put(':id')
-  update(@Param('id') id: number, @Body() body) {
-    return { id, body };
+  update(@Param('id', ParseIntPipe) id: number, @Body() body: UpdateBookDTO) {
+    return this.booksService.updateOne(id, body);
   }
 
   @Delete(':id')
-  delete(@Param('id') id: number) {
-    return { id };
+  delete(@Param('id', ParseIntPipe) id: number) {
+    return this.booksService.removeOne(id);
   }
 }

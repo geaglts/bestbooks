@@ -34,8 +34,6 @@ export class AuthorsService {
   }
 
   async removeOne(authorId: number) {
-    const author = await this.authorsRepository.findOneBy({ id: authorId });
-    if (!author) throw new NotFoundException(`Autor no encontrado`);
-    return this.authorsRepository.delete(author);
+    return this.authorsRepository.delete(authorId);
   }
 }

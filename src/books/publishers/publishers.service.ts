@@ -37,9 +37,6 @@ export class PublishersService {
   }
 
   async removeOne(publisherId: number) {
-    const query = { id: publisherId };
-    const publisher = await this.publishersRepository.findOneBy(query);
-    if (!publisher) throw new NotFoundException(`Editorial no encontrada`);
-    return this.publishersRepository.delete(publisher);
+    return this.publishersRepository.delete(publisherId);
   }
 }

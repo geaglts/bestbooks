@@ -12,6 +12,16 @@ export class PublishersService {
     private publishersRepository: Repository<Publisher>,
   ) {}
 
+  // == simple methods ==
+
+  async getPublisher(id: number) {
+    const publisher = await this.publishersRepository.findOneBy({ id });
+    if (!publisher) throw new NotFoundException(`Editorial no encontrada`);
+    return publisher;
+  }
+
+  // == controller methods ==
+
   findAll() {
     return this.publishersRepository.find();
   }

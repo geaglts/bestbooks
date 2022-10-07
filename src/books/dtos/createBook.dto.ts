@@ -5,7 +5,7 @@ import {
   IsString,
   IsNumber,
   IsInt,
-  IsOptional,
+  IsPositive,
 } from 'class-validator';
 
 export class CreateBookDTO {
@@ -15,22 +15,26 @@ export class CreateBookDTO {
   @IsLowercase()
   name: string;
 
+  @IsPositive()
   @IsNotEmpty()
   @IsInt()
   pages: number;
 
+  @IsPositive()
   @IsNotEmpty()
   @IsNumber()
   price: number;
 
+  @IsPositive()
   @IsNotEmpty()
   @IsInt()
   quantity: number;
 
-  @IsOptional()
+  @IsPositive()
   @IsInt()
-  publisher: number;
+  publisherId: number;
 
+  @IsPositive()
   @IsNotEmpty()
   @IsInt()
   publication_year: number;

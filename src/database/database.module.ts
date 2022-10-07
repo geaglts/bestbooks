@@ -17,7 +17,7 @@ import config from 'src/config';
           username: postgres.dbUsername,
           password: postgres.dbPassword,
           database: postgres.dbName,
-          synchronize: true,
+          synchronize: false,
           autoLoadEntities: true,
         };
       },

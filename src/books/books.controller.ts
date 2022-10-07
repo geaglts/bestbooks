@@ -15,7 +15,7 @@ import { BooksService } from './books.service';
 @ApiTags('books')
 @Controller('books')
 export class BooksController {
-  constructor(private booksService: BooksController) {}
+  constructor(private booksService: BooksService) {}
 
   @Get()
   findAll() {

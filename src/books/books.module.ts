@@ -13,6 +13,7 @@ import {
 } from './categories';
 import { AuthorsController, AuthorsService, AuthorEntity } from './authors';
 
+import { BooksController } from './books.controller';
 import { BooksService } from './books.service';
 import { BookEntity } from './entities/book.entity';
 
@@ -25,7 +26,12 @@ import { BookEntity } from './entities/book.entity';
       BookEntity,
     ]),
   ],
-  controllers: [PublishersController, CategoriesController, AuthorsController],
+  controllers: [
+    BooksController,
+    PublishersController,
+    CategoriesController,
+    AuthorsController,
+  ],
   providers: [
     PublishersService,
     CategoriesService,

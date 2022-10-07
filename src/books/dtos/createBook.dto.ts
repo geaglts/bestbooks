@@ -6,6 +6,8 @@ import {
   IsNumber,
   IsInt,
   IsPositive,
+  IsArray,
+  ArrayNotEmpty,
 } from 'class-validator';
 
 export class CreateBookDTO {
@@ -38,4 +40,14 @@ export class CreateBookDTO {
   @IsNotEmpty()
   @IsInt()
   publication_year: number;
+
+  @IsArray()
+  @ArrayNotEmpty()
+  @IsNumber({}, { each: true })
+  categoriesIds: number[];
+
+  @IsArray()
+  @ArrayNotEmpty()
+  @IsNumber({}, { each: true })
+  authorsIds: number[];
 }

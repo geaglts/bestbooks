@@ -4,7 +4,11 @@ import {
   Entity,
   CreateDateColumn,
   UpdateDateColumn,
+  ManyToOne,
 } from 'typeorm';
+
+// entities
+import { Publisher } from '../publishers/entities/publisher.entity';
 
 @Entity({ name: 'books' })
 export class BookEntity {
@@ -23,8 +27,8 @@ export class BookEntity {
   @Column({ type: 'int' })
   quantity: number;
 
-  @Column({ type: 'int', nullable: true })
-  publisher: number;
+  @ManyToOne(() => Publisher, (publisher) => publisher.books)
+  publisher: Publisher;
 
   @Column({ type: 'int' })
   publication_year: number;

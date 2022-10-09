@@ -47,6 +47,14 @@ export class BooksController {
     return this.booksService.addCategories(id, categoriesIds);
   }
 
+  @Put(':id/authors')
+  addAuthors(
+    @Param('id', ParseIntPipe) id: number,
+    @Query('authors', IntArrayPipe) authorsIds: number[],
+  ) {
+    return this.booksService.addAuthors(id, authorsIds);
+  }
+
   @Put(':id')
   update(@Param('id', ParseIntPipe) id: number, @Body() body: UpdateBookDTO) {
     return this.booksService.updateOne(id, body);
@@ -60,8 +68,16 @@ export class BooksController {
   @Delete(':id/categories')
   deleteCategories(
     @Param('id', ParseIntPipe) id: number,
-    @Query('categories', IntArrayPipe) categories: number[],
+    @Query('categories', IntArrayPipe) categoriesIds: number[],
   ) {
-    return this.booksService.removeCategories(id, categories);
+    return this.booksService.removeCategories(id, categoriesIds);
+  }
+
+  @Delete(':id/authors')
+  deleteAuthors(
+    @Param('id', ParseIntPipe) id: number,
+    @Query('authors', IntArrayPipe) authorsIds: number[],
+  ) {
+    return this.booksService.removeAuthors(id, authorsIds);
   }
 }

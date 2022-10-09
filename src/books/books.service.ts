@@ -123,4 +123,34 @@ export class BooksService {
     );
     return this.booksRepository.save(book);
   }
+
+  // authors
+  async addAuthors(bookId: number, authorsIds: number[]) {
+    const authors = await this.authorsRepository.find({
+      where: { id: In(authorsIds) },
+    });
+    const book = await this.booksRepository.findOne({
+      where: { id: bookId },
+      relations: ['authors'],
+      select: { authors: { id: true } },
+    });
+    if (!book) throw new NotFoundException('No se encontro el libro');
+    book.authors.push(...authors);
+    return this.booksRepository.save(book);
+  }
+
+  async removeAuthors(bookId: number, authorsIds: number[]) {
+    const book = await this.booksRepository.findOne({
+      where: { id: bookId },
+      relations: ['authors'],
+      select: {
+        authors: { id: true },
+      },
+    });
+    if (!book) throw new NotFoundException('No se encontro el libro');
+    book.authors = book.authors.filter(
+      (author) => !authorsIds.includes(author.id),
+    );
+    return this.booksRepository.save(book);
+  }
 }

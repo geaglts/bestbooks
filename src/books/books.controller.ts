@@ -39,6 +39,14 @@ export class BooksController {
     return this.booksService.createOne(body);
   }
 
+  @Put(':id/categories')
+  addCategories(
+    @Param('id', ParseIntPipe) id: number,
+    @Query('categories', IntArrayPipe) categoriesIds: number[],
+  ) {
+    return this.booksService.addCategories(id, categoriesIds);
+  }
+
   @Put(':id')
   update(@Param('id', ParseIntPipe) id: number, @Body() body: UpdateBookDTO) {
     return this.booksService.updateOne(id, body);

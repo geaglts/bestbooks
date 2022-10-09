@@ -98,6 +98,20 @@ export class BooksService {
   }
 
   // categories
+  async addCategories(bookId: number, categoriesIds: number[]) {
+    const categories = await this.categoriesRepository.find({
+      where: { id: In(categoriesIds) },
+    });
+    const book = await this.booksRepository.findOne({
+      where: { id: bookId },
+      relations: ['categories'],
+      select: { categories: { id: true } },
+    });
+    if (!book) throw new NotFoundException('No se encontro el libro');
+    book.categories.push(...categories);
+    return this.booksRepository.save(book);
+  }
+
   async removeCategories(bookId: number, categoriesIds: number[]) {
     const book = await this.booksRepository.findOne({
       where: { id: bookId },

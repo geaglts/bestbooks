@@ -8,8 +8,12 @@ import {
   Param,
   Body,
   ParseIntPipe,
+  Query,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
+
+// custom pipes
+import { IntArrayPipe } from 'src/common/int-array.pipe';
 
 import { BooksService } from './books.service';
 import { CreateBookDTO, UpdateBookDTO } from './dtos';
@@ -43,5 +47,13 @@ export class BooksController {
   @Delete(':id')
   delete(@Param('id', ParseIntPipe) id: number) {
     return this.booksService.removeOne(id);
+  }
+
+  @Delete(':id/categories')
+  deleteCategories(
+    @Param('id', ParseIntPipe) id: number,
+    @Query('categories', IntArrayPipe) categories: number[],
+  ) {
+    return this.booksService.removeCategories(id, categories);
   }
 }

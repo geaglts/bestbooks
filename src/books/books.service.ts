@@ -96,4 +96,17 @@ export class BooksService {
   async removeOne(bookId: number) {
     return this.booksRepository.delete(bookId);
   }
+
+  // categories
+  async removeCategories(bookId: number, categoriesIds: number[]) {
+    const book = await this.booksRepository.findOne({
+      where: { id: bookId },
+      relations: ['categories'],
+    });
+    if (!book) throw new NotFoundException('No se encontro el libro');
+    book.categories = book.categories.filter(
+      (category) => !categoriesIds.includes(category.id),
+    );
+    return this.booksRepository.save(book);
+  }
 }

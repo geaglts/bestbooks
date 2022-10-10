@@ -1,4 +1,13 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  CreateDateColumn,
+  UpdateDateColumn,
+  OneToOne,
+} from 'typeorm';
+
+import { UserEntity } from './user.entity';
 
 @Entity({ name: 'clients' })
 export class ClientEntity {
@@ -16,4 +25,13 @@ export class ClientEntity {
 
   @Column({ type: 'int', default: 0 })
   credits: number;
+
+  @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
+  createdAt: Date;
+
+  @UpdateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
+  updatedAt: Date;
+
+  @OneToOne(() => UserEntity, (user) => user.client, { nullable: true })
+  user: UserEntity;
 }

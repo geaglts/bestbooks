@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
@@ -13,22 +13,31 @@ export class ClientsService {
   ) {}
 
   findAll() {
-    return {};
+    return this.clientsRepository.find();
   }
 
-  findOne(id: number) {
-    return { id };
+  async findOne(id: number) {
+    const client = await this.clientsRepository.findOne({
+      where: { id },
+      relations: ['user'],
+    });
+    if (!client) throw new NotFoundException(`cliente no encontrado`);
+    return client;
   }
 
   createOne(data: CreateClientDTO) {
-    return { data };
+    const newClient = this.clientsRepository.create(data);
+    return this.clientsRepository.save(newClient);
   }
 
-  updateOne(id: number, updatedFields: UpdateClientDTO) {
-    return { id, updatedFields };
+  async updateOne(id: number, updatedFields: UpdateClientDTO) {
+    const client = await this.clientsRepository.findOne({ where: { id } });
+    if (!client) throw new NotFoundException(`cliente no encontrado`);
+    this.clientsRepository.merge(client, updatedFields);
+    return this.clientsRepository.save(client);
   }
 
-  removeOne(id: number) {
-    return { id };
+  async removeOne(id: number) {
+    return this.clientsRepository.delete(id);
   }
 }

@@ -19,7 +19,7 @@ export class ClientsController {
 
   @Get()
   findAll() {
-    return this.clientsService.findAll;
+    return this.clientsService.findAll();
   }
 
   @Get(':id')

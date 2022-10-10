@@ -7,35 +7,44 @@ import {
   HttpCode,
   Body,
   Param,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
+
+import { UsersService } from '../services';
+import { CreateUserDTO, UpdateUserDTO } from '../dtos';
 
 @ApiTags('users')
 @Controller('users')
 export class UsersController {
+  constructor(private usersService: UsersService) {}
+
   @Get()
   findAll() {
-    return 'ok';
+    return this.usersService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: number) {
-    return { id };
+  findOne(@Param('id', ParseIntPipe) id: number) {
+    return this.usersService.findOne(id);
   }
 
   @Post()
   @HttpCode(201)
-  create(@Body() body) {
-    return body;
+  createOne(@Body() body: CreateUserDTO) {
+    return this.usersService.createOne(body);
   }
 
   @Put(':id')
-  update(@Param('id') id: number, @Body() body) {
-    return { id, body };
+  updateOne(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() body: UpdateUserDTO,
+  ) {
+    return this.usersService.updateOne(id, body);
   }
 
   @Delete(':id')
-  delete(@Param('id') id: number) {
-    return { id };
+  removeOne(@Param('id') id: number) {
+    return this.usersService.removeOne(id);
   }
 }

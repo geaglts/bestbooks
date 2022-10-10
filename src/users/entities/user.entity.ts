@@ -24,7 +24,7 @@ export class UserEntity {
   @Column({ type: 'boolean', default: false })
   admin: boolean;
 
-  @Column({ type: 'varchar', length: 40 })
+  @Column({ type: 'varchar', length: 40, unique: true })
   username: string;
 
   @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })

@@ -5,8 +5,11 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   OneToOne,
+  ManyToMany,
+  JoinTable,
 } from 'typeorm';
 
+import { BookEntity } from '../../books/entities/book.entity';
 import { UserEntity } from './user.entity';
 
 @Entity({ name: 'clients' })
@@ -34,4 +37,8 @@ export class ClientEntity {
 
   @OneToOne(() => UserEntity, (user) => user.client, { nullable: true })
   user: UserEntity;
+
+  @ManyToMany(() => BookEntity, (book) => book.favoriteOf)
+  @JoinTable({ name: 'favorites' })
+  favoritesBooks: BookEntity[];
 }

@@ -38,5 +38,6 @@ import { BookEntity } from './entities/book.entity';
     AuthorsService,
     BooksService,
   ],
+  exports: [TypeOrmModule],
 })
 export class BooksModule {}

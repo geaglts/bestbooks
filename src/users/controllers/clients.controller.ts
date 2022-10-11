@@ -33,12 +33,29 @@ export class ClientsController {
     return this.clientsService.createOne(body);
   }
 
+  @Post(':id/favorite/:bookId')
+  @HttpCode(201)
+  addBookToFavorite(
+    @Param('id', ParseIntPipe) clientId: number,
+    @Param('bookId', ParseIntPipe) bookId: number,
+  ) {
+    return this.clientsService.addFavoriteBook(clientId, bookId);
+  }
+
   @Put(':id')
   updateOne(
     @Param('id', ParseIntPipe) id: number,
     @Body() body: UpdateClientDTO,
   ) {
     return this.clientsService.updateOne(id, body);
+  }
+
+  @Delete(':id/favorite/:bookId')
+  removeBookFromFavorites(
+    @Param('id', ParseIntPipe) clientId: number,
+    @Param('bookId', ParseIntPipe) bookId: number,
+  ) {
+    return this.clientsService.removeBookFromFavorites(clientId, bookId);
   }
 
   @Delete(':id')

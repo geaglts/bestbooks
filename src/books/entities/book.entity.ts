@@ -13,6 +13,7 @@ import {
 import { AuthorEntity } from '../authors';
 import { CategoryEntity } from '../categories';
 import { PublisherEntity } from '../publishers';
+import { ClientEntity } from '../../users/entities';
 
 @Entity({ name: 'books' })
 export class BookEntity {
@@ -50,4 +51,7 @@ export class BookEntity {
   @ManyToMany(() => CategoryEntity, (category) => category.books)
   @JoinTable({ name: 'book_categories' })
   categories: CategoryEntity[];
+
+  @ManyToMany(() => ClientEntity, (client) => client.favoritesBooks)
+  favoriteOf: ClientEntity[];
 }

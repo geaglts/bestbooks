@@ -3,6 +3,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 import { ClientEntity } from '../entities';
+import { BookEntity } from '../../books/entities/book.entity';
+
 import { UpdateClientDTO, CreateClientDTO } from '../dtos';
 
 @Injectable()
@@ -10,6 +12,8 @@ export class ClientsService {
   constructor(
     @InjectRepository(ClientEntity)
     private clientsRepository: Repository<ClientEntity>,
+    @InjectRepository(BookEntity)
+    private booksRepository: Repository<BookEntity>,
   ) {}
 
   findAll() {
@@ -39,5 +43,32 @@ export class ClientsService {
 
   async removeOne(id: number) {
     return this.clientsRepository.delete(id);
+  }
+
+  // books
+  async addFavoriteBook(clientId: number, bookId: number) {
+    const client = await this.clientsRepository.findOne({
+      where: { id: clientId },
+      relations: ['favoritesBooks'],
+    });
+    if (!client) throw new NotFoundException('cliente no encontrado');
+    const book = await this.booksRepository.findOne({ where: { id: bookId } });
+    if (!book) throw new NotFoundException('libro no encontrado');
+    client.favoritesBooks.push(book);
+    return this.clientsRepository.save(client);
+  }
+
+  async removeBookFromFavorites(clientId: number, bookId: number) {
+    const client = await this.clientsRepository.findOne({
+      where: { id: clientId },
+      relations: ['favoritesBooks'],
+    });
+    if (!client) throw new NotFoundException('cliente no encontrado');
+    const book = await this.booksRepository.findOne({ where: { id: bookId } });
+    if (!book) throw new NotFoundException('libro no encontrado');
+    client.favoritesBooks = client.favoritesBooks.filter(
+      (book) => book.id !== bookId,
+    );
+    return this.clientsRepository.save(client);
   }
 }

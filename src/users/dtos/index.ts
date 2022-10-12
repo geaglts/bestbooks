@@ -4,3 +4,6 @@ export { UpdateClientDTO } from './clients/updateClient.dto';
 // users
 export { CreateUserDTO } from './users/createUser.dto';
 export { UpdateUserDTO } from './users/updateUser.dto';
+// shoppings
+export { CreateShoppingDTO } from './shoppings/createShopping.dto';
+export { UpdateShoppingDTO } from './shoppings/updateShopping.dto';

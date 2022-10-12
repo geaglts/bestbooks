@@ -11,6 +11,7 @@ import {
 } from '@nestjs/common';
 
 import { ShoppingsService } from '../services';
+import { CreateShoppingDTO, UpdateShoppingDTO } from '../dtos';
 
 @Controller('shoppings')
 export class ShoppingsController {
@@ -33,12 +34,15 @@ export class ShoppingsController {
 
   @Post()
   @HttpCode(201)
-  createOne(@Body() body) {
+  createOne(@Body() body: CreateShoppingDTO) {
     return this.shoppingsService.createOne(body);
   }
 
   @Put(':id')
-  updateOne(@Param('id', ParseIntPipe) id: number, @Body() body) {
+  updateOne(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() body: UpdateShoppingDTO,
+  ) {
     return this.shoppingsService.updateOne(id, body);
   }
 

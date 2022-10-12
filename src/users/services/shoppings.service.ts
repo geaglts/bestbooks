@@ -1,5 +1,7 @@
 import { Injectable } from '@nestjs/common';
 
+import { CreateShoppingDTO, UpdateShoppingDTO } from '../dtos';
+
 @Injectable()
 export class ShoppingsService {
   findAll() {
@@ -14,11 +16,11 @@ export class ShoppingsService {
     return { id };
   }
 
-  createOne(data) {
+  createOne(data: CreateShoppingDTO) {
     return { data };
   }
 
-  updateOne(id: number, fieldsToUpdate) {
+  updateOne(id: number, fieldsToUpdate: UpdateShoppingDTO) {
     return { id, fieldsToUpdate };
   }
 

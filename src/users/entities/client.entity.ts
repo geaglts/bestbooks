@@ -7,10 +7,12 @@ import {
   OneToOne,
   ManyToMany,
   JoinTable,
+  OneToMany,
 } from 'typeorm';
 
 import { BookEntity } from '../../books/entities/book.entity';
 import { UserEntity } from './user.entity';
+import { ShoppingEntity } from './shopping.entity';
 
 @Entity({ name: 'clients' })
 export class ClientEntity {
@@ -41,4 +43,7 @@ export class ClientEntity {
   @ManyToMany(() => BookEntity, (book) => book.favoriteOf)
   @JoinTable({ name: 'favorites' })
   favoritesBooks: BookEntity[];
+
+  @OneToMany(() => ShoppingEntity, (shopping) => shopping.client)
+  shoppings: ShoppingEntity[];
 }

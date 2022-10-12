@@ -9,10 +9,23 @@ import {
   ShoppingsController,
 } from './controllers';
 import { ClientsService, UsersService, ShoppingsService } from './services';
-import { ClientEntity, UserEntity } from './entities';
+import {
+  ClientEntity,
+  UserEntity,
+  ShoppingEntity,
+  ShoppingItemEntity,
+} from './entities';
 
 @Module({
-  imports: [BooksModule, TypeOrmModule.forFeature([ClientEntity, UserEntity])],
+  imports: [
+    BooksModule,
+    TypeOrmModule.forFeature([
+      ClientEntity,
+      UserEntity,
+      ShoppingEntity,
+      ShoppingItemEntity,
+    ]),
+  ],
   controllers: [ClientsController, UsersController, ShoppingsController],
   providers: [ClientsService, UsersService, ShoppingsService],
   exports: [],

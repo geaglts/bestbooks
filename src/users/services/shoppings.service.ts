@@ -32,7 +32,7 @@ export class ShoppingsService {
   findOne(id: number) {
     return this.shoppingsRepository.findOne({
       where: { id },
-      relations: ['shoppingItems', 'shoppingItems.book'],
+      relations: ['shoppingItems', 'shoppingItems.book', 'client'],
     });
   }
 

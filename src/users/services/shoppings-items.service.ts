@@ -24,9 +24,9 @@ export class ShoppingsItemsService {
     });
   }
 
-  findOne(shoppingItem: number) {
+  findOne(shoppingItemId: number) {
     return this.shoppingsItemsRepository.findOne({
-      where: { id: shoppingItem },
+      where: { id: shoppingItemId },
       relations: ['book'],
     });
   }

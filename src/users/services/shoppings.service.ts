@@ -30,7 +30,10 @@ export class ShoppingsService {
   }
 
   findOne(id: number) {
-    return this.shoppingsRepository.findOne({ where: { id } });
+    return this.shoppingsRepository.findOne({
+      where: { id },
+      relations: ['shoppingItems', 'shoppingItems.book'],
+    });
   }
 
   async createOne(data: CreateShoppingDTO) {

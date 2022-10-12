@@ -7,8 +7,14 @@ import {
   ClientsController,
   UsersController,
   ShoppingsController,
+  ShoppingsItemsController,
 } from './controllers';
-import { ClientsService, UsersService, ShoppingsService } from './services';
+import {
+  ClientsService,
+  UsersService,
+  ShoppingsService,
+  ShoppingsItemsService,
+} from './services';
 import {
   ClientEntity,
   UserEntity,
@@ -26,8 +32,18 @@ import {
       ShoppingItemEntity,
     ]),
   ],
-  controllers: [ClientsController, UsersController, ShoppingsController],
-  providers: [ClientsService, UsersService, ShoppingsService],
+  controllers: [
+    ClientsController,
+    UsersController,
+    ShoppingsController,
+    ShoppingsItemsController,
+  ],
+  providers: [
+    ClientsService,
+    UsersService,
+    ShoppingsService,
+    ShoppingsItemsService,
+  ],
   exports: [],
 })
 export class UsersModule {}

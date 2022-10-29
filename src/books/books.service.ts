@@ -6,7 +6,7 @@ import { In, Repository } from 'typeorm';
 import { CategoryEntity } from './categories';
 import { AuthorEntity } from './authors';
 import { BookEntity } from './entities/book.entity';
-import { CreateBookDTO, UpdateBookDTO } from './dtos';
+import { CreateBookDTO, UpdateBookDTO, PaginationProductDTO } from './dtos';
 
 // services
 import { PublishersService } from './publishers';
@@ -23,17 +23,26 @@ export class BooksService {
     private authorsRepository: Repository<AuthorEntity>,
   ) {}
 
-  findAll() {
+  findAll(params?: PaginationProductDTO) {
+    if (params) {
+      const { limit, offset } = params;
+      return this.booksRepository.find({
+        take: limit,
+        skip: offset,
+        relations: ['publisher', 'authors'],
+        order: { name: 'ASC' },
+        select: {
+          publisher: { id: true, name: true, short_name: true },
+          authors: { id: true, name: true, last_name: true },
+        },
+      });
+    }
     return this.booksRepository.find({
       relations: ['publisher', 'authors'],
       order: { name: 'ASC' },
       select: {
         publisher: { id: true, name: true, short_name: true },
-        authors: {
-          id: true,
-          name: true,
-          last_name: true,
-        },
+        authors: { id: true, name: true, last_name: true },
       },
     });
   }

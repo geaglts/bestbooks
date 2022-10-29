@@ -16,7 +16,7 @@ import { ApiTags } from '@nestjs/swagger';
 import { IntArrayPipe } from 'src/common/int-array.pipe';
 
 import { BooksService } from './books.service';
-import { CreateBookDTO, UpdateBookDTO } from './dtos';
+import { CreateBookDTO, UpdateBookDTO, PaginationProductDTO } from './dtos';
 
 @ApiTags('books')
 @Controller('books')
@@ -24,8 +24,8 @@ export class BooksController {
   constructor(private booksService: BooksService) {}
 
   @Get()
-  findAll() {
-    return this.booksService.findAll();
+  findAll(@Query() params: PaginationProductDTO) {
+    return this.booksService.findAll(params);
   }
 
   @Get(':id')

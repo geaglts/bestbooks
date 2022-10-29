@@ -1,4 +1,4 @@
-import { Min, IsPositive, IsOptional } from 'class-validator';
+import { Min, IsPositive, IsOptional, ValidateIf } from 'class-validator';
 
 export class PaginationProductDTO {
   @IsOptional()
@@ -8,4 +8,12 @@ export class PaginationProductDTO {
   @IsOptional()
   @Min(0)
   offset: number;
+
+  @IsOptional()
+  @IsPositive()
+  minPrice: number;
+
+  @ValidateIf((item) => item.minPrice)
+  @IsPositive()
+  maxPrice: number;
 }

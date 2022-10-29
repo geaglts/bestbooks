@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { In, Repository } from 'typeorm';
+import { In, Repository, FindOptionsWhere, Between } from 'typeorm';
 
 //entities
 import { CategoryEntity } from './categories';
@@ -25,10 +25,16 @@ export class BooksService {
 
   findAll(params?: PaginationProductDTO) {
     if (params) {
+      const where: FindOptionsWhere<BookEntity> = {};
       const { limit, offset } = params;
+      const { minPrice, maxPrice } = params;
+      if (minPrice && maxPrice) {
+        where.price = Between(minPrice, maxPrice);
+      }
       return this.booksRepository.find({
         take: limit,
         skip: offset,
+        where,
         relations: ['publisher', 'authors'],
         order: { name: 'ASC' },
         select: {

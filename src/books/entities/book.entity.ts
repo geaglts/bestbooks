@@ -7,6 +7,7 @@ import {
   ManyToOne,
   ManyToMany,
   JoinTable,
+  Index,
 } from 'typeorm';
 
 // entities
@@ -26,6 +27,7 @@ export class BookEntity {
   @Column({ type: 'int' })
   pages: number;
 
+  @Index() // indexacion de campos
   @Column({ type: 'float' })
   price: number;
 
@@ -38,10 +40,18 @@ export class BookEntity {
   @Column({ type: 'int' })
   publication_year: number;
 
-  @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
+  @CreateDateColumn({
+    name: 'created_at',
+    type: 'timestamptz',
+    default: () => 'CURRENT_TIMESTAMP',
+  })
   createdAt: Date;
 
-  @UpdateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
+  @UpdateDateColumn({
+    name: 'updated_at',
+    type: 'timestamptz',
+    default: () => 'CURRENT_TIMESTAMP',
+  })
   updatedAt: Date;
 
   @ManyToMany(() => AuthorEntity, (author) => author.books)

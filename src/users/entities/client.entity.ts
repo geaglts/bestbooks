@@ -41,7 +41,13 @@ export class ClientEntity {
   user: UserEntity;
 
   @ManyToMany(() => BookEntity, (book) => book.favoriteOf)
-  @JoinTable({ name: 'favorites' })
+  @JoinTable({
+    name: 'favorites',
+    joinColumn: { name: 'client_id' },
+    inverseJoinColumn: {
+      name: 'book_id',
+    },
+  })
   favoritesBooks: BookEntity[];
 
   @OneToMany(() => ShoppingEntity, (shopping) => shopping.client)

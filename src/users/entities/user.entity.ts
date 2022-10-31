@@ -6,6 +6,7 @@ import {
   UpdateDateColumn,
   OneToOne,
   JoinColumn,
+  Index,
 } from 'typeorm';
 
 import { ClientEntity } from './client.entity';
@@ -15,6 +16,7 @@ export class UserEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
+  @Index() // indexacion de campo
   @Column({ type: 'varchar', unique: true })
   email: string;
 
@@ -27,10 +29,18 @@ export class UserEntity {
   @Column({ type: 'varchar', length: 40, unique: true })
   username: string;
 
-  @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
+  @CreateDateColumn({
+    name: 'created_at',
+    type: 'timestamptz',
+    default: () => 'CURRENT_TIMESTAMP',
+  })
   createdAt: Date;
 
-  @UpdateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
+  @UpdateDateColumn({
+    name: 'updated_at',
+    type: 'timestamptz',
+    default: () => 'CURRENT_TIMESTAMP',
+  })
   updatedAt: Date;
 
   @OneToOne(() => ClientEntity, (client) => client.user, { nullable: true })

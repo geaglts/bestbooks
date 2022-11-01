@@ -8,8 +8,12 @@ import {
   JoinColumn,
   Index,
 } from 'typeorm';
+import { Exclude, Expose } from 'class-transformer';
 
 import { ClientEntity } from './client.entity';
+
+// utils
+import capitalize from '../../utils/capitalize';
 
 @Entity({ name: 'users' })
 export class UserEntity {
@@ -29,6 +33,7 @@ export class UserEntity {
   @Column({ type: 'varchar', length: 40, unique: true })
   username: string;
 
+  @Exclude()
   @CreateDateColumn({
     name: 'created_at',
     type: 'timestamptz',
@@ -36,6 +41,7 @@ export class UserEntity {
   })
   createdAt: Date;
 
+  @Exclude()
   @UpdateDateColumn({
     name: 'updated_at',
     type: 'timestamptz',
@@ -43,7 +49,30 @@ export class UserEntity {
   })
   updatedAt: Date;
 
+  @Exclude()
   @OneToOne(() => ClientEntity, (client) => client.user, { nullable: true })
   @JoinColumn()
   client: ClientEntity;
+
+  @Expose()
+  get fullName(): string {
+    if (this.client) {
+      return `${capitalize(this.client.name)} ${capitalize(
+        this.client.last_name,
+      )} ${capitalize(this.client.second_last_name)}`;
+    }
+    return null;
+  }
+
+  @Expose()
+  get clientId(): number {
+    if (!this.client) return null;
+    return this.client.id;
+  }
+
+  @Expose()
+  get credits(): number {
+    if (!this.client) return null;
+    return this.client.credits;
+  }
 }

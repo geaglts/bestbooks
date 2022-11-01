@@ -6,6 +6,7 @@ import {
   UpdateDateColumn,
   ManyToMany,
 } from 'typeorm';
+import { Exclude } from 'class-transformer';
 
 // entities
 import { BookEntity } from '../../entities/book.entity';
@@ -24,9 +25,11 @@ export class Author {
   @Column({ type: 'varchar', length: 50 })
   second_last_name: string;
 
+  @Exclude()
   @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;
 
+  @Exclude()
   @UpdateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
   updatedAt: Date;
 

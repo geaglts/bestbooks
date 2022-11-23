@@ -9,6 +9,7 @@ import { UsersModule } from './users/users.module';
 import config, { envValidation } from './config';
 import { getEnvironments } from './environments';
 import { DatabaseModule } from './database/database.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { DatabaseModule } from './database/database.module';
     BooksModule,
     UsersModule,
     DatabaseModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],

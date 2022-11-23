@@ -29,7 +29,7 @@ export class ApiKeyGuard implements CanActivate {
     const notHaveAccess = apiKey !== 'secret';
     if (notHaveAccess) {
       throw new UnauthorizedException(
-        "Sorry, but you can't access to this route, please check your request, maybe not exist some config",
+        "Sorry, but you can't access to this route, please check your request, maybe not exist some required param, have a nice day ☀",
       );
     }
     return true;

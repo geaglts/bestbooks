@@ -44,6 +44,6 @@ import {
     ShoppingsService,
     ShoppingsItemsService,
   ],
-  exports: [],
+  exports: [UsersService],
 })
 export class UsersModule {}

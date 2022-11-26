@@ -24,6 +24,7 @@ export class UserEntity {
   @Column({ type: 'varchar', unique: true })
   email: string;
 
+  @Exclude()
   @Column({ type: 'text' })
   password: string;
 

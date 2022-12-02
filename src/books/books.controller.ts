@@ -9,8 +9,10 @@ import {
   Body,
   ParseIntPipe,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
+import { AuthGuard } from '@nestjs/passport';
 
 // custom pipes
 import { IntArrayPipe } from 'src/common/int-array.pipe';
@@ -18,6 +20,7 @@ import { IntArrayPipe } from 'src/common/int-array.pipe';
 import { BooksService } from './books.service';
 import { CreateBookDTO, UpdateBookDTO, PaginationProductDTO } from './dtos';
 
+@UseGuards(AuthGuard('jwt'))
 @ApiTags('books')
 @Controller('books')
 export class BooksController {

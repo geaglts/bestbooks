@@ -8,6 +8,7 @@ export const envValidation = Joi.object({
   DB_PASSWORD: Joi.string().required(),
   DB_NAME: Joi.string().required(),
   API_KEY: Joi.string().required(),
+  JWT_SECRET: Joi.string().required(),
 });
 
 export default registerAs('config', () => {
@@ -21,6 +22,7 @@ export default registerAs('config', () => {
     },
     auth: {
       apiKey: process.env.API_KEY,
+      jwtSecret: process.env.JWT_SECRET,
     },
   };
 });

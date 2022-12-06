@@ -14,9 +14,13 @@ import {
 import { ApiTags } from '@nestjs/swagger';
 
 // auth
-import { AuthGuard } from '@nestjs/passport';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+import { RolesGuard } from 'src/auth/guards/roles.guard';
 import { Public } from '../auth/decorators/public.decorator';
+import { Roles } from 'src/auth/decorators/roles.decorator';
+
+// models
+import { RoleModel } from 'src/auth/models/role.model';
 
 // custom pipes
 import { IntArrayPipe } from 'src/common/int-array.pipe';
@@ -24,7 +28,7 @@ import { IntArrayPipe } from 'src/common/int-array.pipe';
 import { BooksService } from './books.service';
 import { CreateBookDTO, UpdateBookDTO, PaginationProductDTO } from './dtos';
 
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, RolesGuard)
 @ApiTags('books')
 @Controller('books')
 export class BooksController {
@@ -42,6 +46,7 @@ export class BooksController {
     return this.booksService.findOne(id);
   }
 
+  @Roles(RoleModel.ADMIN)
   @Post()
   @HttpCode(201)
   create(@Body() body: CreateBookDTO) {

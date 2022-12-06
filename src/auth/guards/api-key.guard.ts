@@ -12,7 +12,7 @@ import { Request } from 'express';
 
 import config from '../../config';
 
-// keys
+// decorators
 import { PUBLIC_DECORATOR } from '../decorators/public.decorator';
 
 @Injectable()

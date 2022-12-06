@@ -12,7 +12,11 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
+
+// auth
 import { AuthGuard } from '@nestjs/passport';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+import { Public } from '../auth/decorators/public.decorator';
 
 // custom pipes
 import { IntArrayPipe } from 'src/common/int-array.pipe';
@@ -20,17 +24,19 @@ import { IntArrayPipe } from 'src/common/int-array.pipe';
 import { BooksService } from './books.service';
 import { CreateBookDTO, UpdateBookDTO, PaginationProductDTO } from './dtos';
 
-@UseGuards(AuthGuard('jwt'))
+@UseGuards(JwtAuthGuard)
 @ApiTags('books')
 @Controller('books')
 export class BooksController {
   constructor(private booksService: BooksService) {}
 
+  @Public()
   @Get()
   findAll(@Query() params: PaginationProductDTO) {
     return this.booksService.findAll(params);
   }
 
+  @Public()
   @Get(':id')
   findOne(@Param('id', ParseIntPipe) id: number) {
     return this.booksService.findOne(id);

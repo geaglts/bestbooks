@@ -28,6 +28,9 @@ export class UserEntity {
   @Column({ type: 'text' })
   password: string;
 
+  @Column({ type: 'varchar' })
+  rol: string;
+
   @Column({ type: 'boolean', default: false })
   admin: boolean;
 
